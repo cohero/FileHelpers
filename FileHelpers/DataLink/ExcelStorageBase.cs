@@ -5,6 +5,7 @@ namespace FileHelpers.DataLink
 {
     /// <summary><para>This class is a common base class for both FileHelpers.DataLink.ExcelStorage (FileHelpers.ExcelStorage.dll) and FileHelpers.DataLink.ExcelNPOIStorage (FileHelpers.ExcelNPOIStorage.dll).</para>
     /// </summary>
+    [Obsolete("Datalink feature is outdated and will be rewritten, see https://www.filehelpers.net/mustread/")]
     public abstract class ExcelStorageBase : DataStorage
     {
         private ExcelUpdateLinksMode mUpdateLinks = ExcelUpdateLinksMode.NeverUpdate;
@@ -57,8 +58,8 @@ namespace FileHelpers.DataLink
 
         #region "  Private Fields  "
 
-        private string mSheetName = String.Empty;
-        private string mFileName = String.Empty;
+        private string mSheetName = string.Empty;
+        private string mFileName = string.Empty;
 
         private int mStartRow = 1;
         private int mStartColumn = 1;

@@ -1,4 +1,4 @@
-$AssemblyVersion = "3.3.1"
+$AssemblyVersion = "3.4.2"
 $SemanticVersion = $AssemblyVersion + "-alpha"   #for stable version, set postfix to empty
 
 function Update-NuGetVersion ([string] $filename, [string] $versionNumber){
@@ -46,8 +46,17 @@ function Update-AssemblyInfoFile ([string] $filename, [string] $assemblyVersionN
     } | Set-Content $filename
 }
 
+function Update-AppVeyorBuildFile([string]$filename, [string] $assemblyVersionNumber) {
+    # open file
+    $buildVersionPattern = 'version: [0-9]+\.[0-9]+\.[0-9]+\.\{build\}'
+
+    (Get-Content $filename) | ForEach-Object {
+        % {$_ -replace $buildVersionPattern, "version: $assemblyVersionNumber.{build}"}
+    } | Set-Content $filename
+}
+
+Update-AppVeyorBuildFile '..\appveyor.yml' $AssemblyVersion
 Update-AssemblyInfoFile '..\FileHelpers\VersionInfo.cs' $AssemblyVersion $SemanticVersion
 Update-StandardProject '..\FileHelpers\FileHelpers.NetStandard.csproj' $SemanticVersion
-Update-NuGetVersion '.\NuGet\FileHelpers.ExcelStorage.nuspec' $SemanticVersion
 Update-NuGetVersion '.\NuGet\FileHelpers.ExcelNPOIStorage.nuspec' $SemanticVersion
 Update-NuGetVersion '.\NuGet\FileHelpers.nuspec' $SemanticVersion
